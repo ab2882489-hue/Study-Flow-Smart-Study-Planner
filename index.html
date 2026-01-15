@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow – Smart Student Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-book-open"></i> StudyFlow</h1>
+            <p class="subtitle">Smart Student Planner</p>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <!-- Progress Dashboard -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-chart-line"></i> Progress Dashboard</h2>
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <h3>Overall Progress</h3>
+                    <div class="progress-circle">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <circle class="progress-bg" cx="60" cy="60" r="54"></circle>
+                            <circle class="progress-bar" cx="60" cy="60" r="54" stroke-dasharray="339.292" stroke-dashoffset="0"></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="completed-tasks">0</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="total-tasks">0</span>
+                            <span class="stat-label">Total Tasks</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3>Subject Progress</h3>
+                    <div class="subject-progress-list" id="subject-progress-list">
+                        <p class="empty-message">No subjects added yet.</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3>Today's Focus</h3>
+                    <div class="focus-summary">
+                        <div class="focus-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <p class="focus-count" id="today-completed">0</p>
+                                <p class="focus-label">Tasks Done Today</p>
+                            </div>
+                        </div>
+                        <div class="focus-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <p class="focus-count" id="study-hours">0h</p>
+                                <p class="focus-label">Study Hours Today</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="content-grid">
+            <!-- Study Plan Generator -->
+            <section class="section plan-generator">
+                <h2><i class="fas fa-calendar-alt"></i> Study Plan Generator</h2>
+                <form id="study-plan-form" class="form">
+                    <div class="form-group">
+                        <label for="subject-name"><i class="fas fa-graduation-cap"></i> Subject Name</label>
+                        <input type="text" id="subject-name" placeholder="e.g., Mathematics, Physics" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deadline"><i class="fas fa-calendar-day"></i> Deadline Date</label>
+                        <input type="date" id="deadline" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="difficulty"><i class="fas fa-signal"></i> Difficulty Level</label>
+                        <select id="difficulty" required>
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="daily-hours"><i class="fas fa-clock"></i> Daily Available Study Hours</label>
+                        <input type="number" id="daily-hours" min="0.5" max="24" step="0.5" value="2" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-magic"></i> Generate Study Plan
+                    </button>
+                </form>
+            </section>
+
+            <!-- Focus Mode -->
+            <section class="section focus-mode">
+                <h2><i class="fas fa-hourglass-half"></i> Focus Timer</h2>
+                <div class="timer-container">
+                    <div class="timer-display">
+                        <div class="timer-time" id="timer-display">25:00</div>
+                        <div class="timer-label" id="timer-label">Study Session</div>
+                    </div>
+                    
+                    <div class="timer-controls">
+                        <button id="start-timer" class="btn btn-timer btn-start">
+                            <i class="fas fa-play"></i> Start
+                        </button>
+                        <button id="pause-timer" class="btn btn-timer btn-pause" disabled>
+                            <i class="fas fa-pause"></i> Pause
+                        </button>
+                        <button id="reset-timer" class="btn btn-timer btn-reset">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                    
+                    <div class="timer-settings">
+                        <div class="setting">
+                            <label for="study-time">Study (min)</label>
+                            <input type="number" id="study-time" min="5" max="60" value="25">
+                        </div>
+                        <div class="setting">
+                            <label for="break-time">Break (min)</label>
+                            <input type="number" id="break-time" min="1" max="30" value="5">
+                        </div>
+                    </div>
+                    
+                    <div class="timer-progress">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="timer-progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Generated Schedule -->
+        <section class="section schedule-section">
+            <h2><i class="fas fa-calendar-week"></i> Generated Study Schedule</h2>
+            <div class="schedule-controls">
+                <button id="clear-schedule" class="btn btn-outline">
+                    <i class="fas fa-trash-alt"></i> Clear All
+                </button>
+                <div class="view-toggle">
+                    <button id="view-timetable" class="btn btn-outline active">
+                        <i class="fas fa-table"></i> Timetable
+                    </button>
+                    <button id="view-cards" class="btn btn-outline">
+                        <i class="fas fa-th-large"></i> Cards
+                    </button>
+                </div>
+            </div>
+            
+            <div class="schedule-container" id="schedule-container">
+                <div class="empty-schedule">
+                    <i class="fas fa-calendar-plus"></i>
+                    <h3>No Study Schedule Yet</h3>
+                    <p>Generate a study plan using the form above to see your schedule here.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Daily Task Breakdown -->
+        <section class="section task-section">
+            <h2><i class="fas fa-tasks"></i> Daily Task Breakdown</h2>
+            <div class="task-controls">
+                <div class="date-navigation">
+                    <button id="prev-day" class="btn btn-outline">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h3 id="current-date">Today</h3>
+                    <button id="next-day" class="btn btn-outline">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <button id="mark-all-tasks" class="btn btn-outline">
+                    <i class="fas fa-check-double"></i> Mark All as Done
+                </button>
+            </div>
+            
+            <div class="task-list" id="task-list">
+                <div class="empty-tasks">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>No Tasks for Today</h3>
+                    <p>Tasks will appear here after generating a study plan.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>StudyFlow – Smart Student Planner &copy; <span id="current-year">2023</span></p>
+            <p class="footer-note">All data is stored locally in your browser</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <span id="notification-message"></span>
+        </div>
+    </div>
+
+    <!-- Audio for timer alert -->
+    <audio id="timer-alert" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
